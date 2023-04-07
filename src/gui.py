@@ -11,5 +11,12 @@ class GUI():
 
     def run(self):
         while True:
+
+# Auxiliary classes and function
+# Class to define player buttons
+class PLAY_BUTTON():
+    def __init__(self,text):
+        sg.Button(  button_text = text,
+                    s = (10,10))
             
             
