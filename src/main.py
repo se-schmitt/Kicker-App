@@ -1,8 +1,8 @@
 # Main file "kicker app"
 
-import PySimpleGUI as sg
-import gui.py
+# Import modules
+import gui
 
 if __name__ == "__main__":
-    app = GUI()
+    app = gui.GUI()
     app.run()
