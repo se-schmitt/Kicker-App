@@ -1,8 +1,7 @@
 # Main file "kicker app"
 
 # Import modules
-import gui
+import app
 
 if __name__ == "__main__":
-    app = gui.GUI()
-    app.run()
+    app.ui.run()
