@@ -39,20 +39,37 @@ players = [ player('Spieler 1',1,'media/dummy_player.png'),
 
 # Dialog > move to new file
 
-def create_get_name(n):
-    def get_name():
-        print(dialog_players.value)
-        dialog_players.close()
-    return get_name
+# Define function to create lambda function
+def make_lambda(i):
+    return lambda: dialog_players.submit(i)
 
 # Dialog to choose player
 with ui.dialog() as dialog_players, ui.card().props('bordered horizontal').style('max-width:300vh'):
     with ui.grid(columns=9).style('width:100vh'):
         for i,row in df.iterrows():
-            with ui.image(row['image']).on('click',create_get_name(i)).style('width:100%'):
-                ui.label(row['Name']).classes('absolute-bottom text-subtitle2 text-center')
+            with ui.image(row['image']).on('click',make_lambda(i)).style('width:100%'):
+                ui.label(row['Name']).classes('absolute-bottom text-subtitle2 text-center no-margin')
 
-def choose_player(i):
-    dialog_players.set_value(i)
-    dialog_players.open()
-    ui.notify(f'You chose {i}')
+# Choose player function
+async def choose_player_1():
+    out = await dialog_players
+    choose_player(0,out)
+
+async def choose_player_2():
+    out = await dialog_players
+    choose_player(1,out)
+
+async def choose_player_3():
+    out = await dialog_players
+    choose_player(2,out)
+
+async def choose_player_4():
+    out = await dialog_players
+    choose_player(3,out)
+
+def choose_player(i_player, i_row):
+    players[i_player].name = dat[int(i_row)]['Name']
+    players[i_player].id = dat[int(i_row)]['ID']
+    players[i_player].image = dat[i_row]['image']
+    players[i_player].text = dat[i_row]['Name']
+    ui.notify(f'You chose i_player: {i_player} and i_row: {i_row} -> {players[i_player].name}')

@@ -2,7 +2,7 @@
 from nicegui import app, ui
 
 # Import custom modules
-from init import choose_player, players, columns, dat
+from init import choose_player_1, choose_player_2, choose_player_3, choose_player_4, players, columns, dat
 
 def content() -> None:
     with ui.tab_panel('Home'):
@@ -13,10 +13,10 @@ def content() -> None:
                     with ui.card():
                         ui.label('Team 1').classes('w-full').style('text-align:center;font-size:24px')
                         with ui.row().classes('w-full justify-center'):
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',lambda: choose_player(1)):
-                                ui.label('Spieler 1').classes('absolute-bottom text-subtitle2 text-center')
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',lambda: choose_player(2)):
-                                ui.label('Spieler 2').classes('absolute-bottom text-subtitle2 text-center')
+                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_1).bind_source(players[0],target_name='image'):
+                                ui.label('Spieler 1').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[0])
+                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_2).bind_source(players[1],target_name='image'):
+                                ui.label('Spieler 2').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[1])
 
                 with ui.column().classes('justify-center items-around').props('vertical-bottom'):
                     with ui.card():
@@ -32,10 +32,9 @@ def content() -> None:
                     with ui.card():
                         ui.label('Team 2').classes('w-full').style('text-align:center;font-size:24px')
                         with ui.row().classes('w-full justify-center'):
-                            # image_pl3 = ui.image('/media/dummy_player.png').style('width:150px').on(type='click',handler=print(3))
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',lambda: choose_player(3)):
-                                ui.label('Spieler 3').classes('absolute-bottom text-subtitle2 text-center')
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',lambda: choose_player(4)):
+                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_3).bind_source(players[2],target_name='image'):
+                                ui.label('Spieler 3').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[2])
+                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_4).bind_source(players[3],target_name='image'):
                                 ui.label('Spieler 4').classes('absolute-bottom text-subtitle2 text-center').bind_text_from(players[3])
         
         # Table
