@@ -1,10 +1,8 @@
 # Import public modules
 from nicegui import app, ui
 import pandas as pd
-import copy
 
 # Import custom modules
-import init
 import home
 
 # General settings
@@ -25,7 +23,7 @@ with tabs:
 tab_panels = ui.tab_panels(tabs, value='Home').props('horizontal').classes('w-full justify-center')
 with tab_panels:
     # Tab 'Home'
-    home.content()
+    table = home.content()
 
     # Tab 'Statistik'
     with ui.tab_panel('Statistik'):

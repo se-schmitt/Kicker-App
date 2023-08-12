@@ -3,28 +3,35 @@ from nicegui import app, ui
 import pandas as pd
 from os.path import isfile
 
-# Loading
-df = pd.read_csv('data/data-kicker-app.txt',sep='\t')
-df['Quote'] = [a for a  in round(df['Wins'] / df['Games']*100,1)]
-df['image'] = ['media/image_' + a + '.png' for a in df['Name']]
-for i,row in df.iterrows():
-    if not isfile(row['image']):
-        df.at[i,'image'] = 'media/dummy_player.png'
+# Reading database 'players'
+df_players = pd.read_csv('data/database_players.csv',sep=',')
+df_players['WinRate'] = [a for a  in round(df_players['Wins'] / df_players['Games']*100,1)]
+df_players['Image'] = ['media/image_' + a + '.png' for a in df_players['Name']]
+for i,row in df_players.iterrows():
+    if not isfile(row['Image']):
+        df_players.at[i,'Image'] = 'media/dummy_player.png'
 
-dat = df.to_dict('records')
+# Create data and columns properties for table
+dat = df_players.to_dict('records')
 columns = [
     {'name': 'name',        'label': 'Name',            'field': 'Name',            'sortable': True,   'align': 'left'},
-    {'name': 'image',       'label': 'Bild',            'field': 'image',           'sortable': False,  'align': 'center'},
+    {'name': 'image',       'label': 'Bild',            'field': 'Image',           'sortable': False,  'align': 'center'},
     {'name': 'games',       'label': 'Spiele',          'field': 'Games',           'sortable': True,   'align': 'center'},
     {'name': 'wins',        'label': 'Siege',           'field': 'Wins',            'sortable': True,   'align': 'center'},
-    {'name': 'quote',       'label': 'Quote / %',       'field': 'Quote',           'sortable': True,   'align': 'center'},
-    {'name': 'goals',       'label': 'Tore',            'field': 'Tore',            'sortable': True,   'align': 'center'},
-    {'name': 'goals_a',     'label': 'Gegentore',       'field': 'ggTore',          'sortable': True,   'align': 'center'},
-    {'name': 'last_game',   'label': 'zuletzt gespielt','field': 'zuletztGespielt', 'sortable': True,   'align': 'center'},
+    {'name': 'winrate',     'label': 'Quote / %',       'field': 'WinRate',         'sortable': True,   'align': 'center'},
+    {'name': 'series',      'label': 'Siegesserie',     'field': 'WinSeries',       'sortable': True,   'align': 'center'},
+    {'name': 'goals',       'label': 'Tore',            'field': 'Goals',           'sortable': True,   'align': 'center'},
+    {'name': 'goals_a',     'label': 'Gegentore',       'field': 'GoalsAgainst',    'sortable': True,   'align': 'center'},
+    {'name': 'last_game',   'label': 'zuletzt gespielt','field': 'LastGame_Date',   'sortable': True,   'align': 'center'},
 ]
 
+# Reading database 'games'
+df_games = pd.read_csv('data/database_games.csv',sep=',')
+
+# Set colors
 ui.colors(primary='rgb(0,60,90)',secondary='rgb(240,240,240)',accent='rgb(255,0,0)')
 
+# Define class for player
 class player:
     def __init__(self, name, id, image):
         self.name = name
@@ -32,44 +39,84 @@ class player:
         self.image = image
         self.text = name
 
+# Initialize players
 players = [ player('Spieler 1',1,'media/dummy_player.png'),
             player('Spieler 2',2,'media/dummy_player.png'),
             player('Spieler 3',3,'media/dummy_player.png'),
             player('Spieler 4',4,'media/dummy_player.png')  ]
+def is_valid_players():
+    for i in range(0,4):
+        if players[i].name == 'Spieler ' + str(i+1):
+            ui.notify(f'Bitte wähle Spieler {i+1} aus!')
+            return False
+    return True
 
-# Dialog > move to new file
+# Define scores
+class score:
+    def __init__(self, score1, score2):
+        self.score1 = 0
+        self.score2 = 0
 
-# Define function to create lambda function
-def make_lambda(i):
-    return lambda: dialog_players.submit(i)
+    def is_valid_result(self):
+        out = True
+        if not self.score1 == 6 and not self.score2 == 6:
+            out = False
+            ui.notify('Noch steht kein Sieger fest! Eine Mannschaft muss 6 Tore erreichen.')
+        elif self.score1 == self.score2:
+            out = False
+            ui.notify('Hier ist etwas schief gelaufen! Es darf keinen Gleichstand geben.')
+        return out
 
-# Dialog to choose player
-with ui.dialog() as dialog_players, ui.card().props('bordered horizontal').style('max-width:300vh'):
-    with ui.grid(columns=9).style('width:100vh'):
-        for i,row in df.iterrows():
-            with ui.image(row['image']).on('click',make_lambda(i)).style('width:100%'):
-                ui.label(row['Name']).classes('absolute-bottom text-subtitle2 text-center no-margin')
+# Initialize scores
+scores = score(0,0)
 
-# Choose player function
-async def choose_player_1():
-    out = await dialog_players
-    choose_player(0,out)
+# Function to add a game
+def add_game():
+    # Check if it is valid to add game
+    if is_valid_players() and scores.is_valid_result():
+        # DEBUGGING
+        print(players[0].name)
+        print(f"Aktueller Spielstand im Spiel {players[0].name} + {players[1].name} vs. {players[2].name} + {players[3].name}:\n{scores.score1} : {scores.score2}")
 
-async def choose_player_2():
-    out = await dialog_players
-    choose_player(1,out)
+        datestr = pd.to_datetime('today').strftime("%y-%m-%d %H:%M")
+        
+        # Add game to database 'players'
+        for i in range(4):
+            irow = df_players['ID'] == players[i].id
+            df_players.at[df_players[irow].index[0],'Games'] += 1
+            df_players.at[df_players[irow].index[0],'LastGame_Date'] = datestr
+            if i in [1,2]:
+                if scores.score1 > scores.score2:
+                    df_players.at[df_players[irow].index[0],'Wins'] += 1
+                    df_players.at[df_players[irow].index[0],'WinSeries'] += 1
+                else:
+                    df_players.at[df_players[irow].index[0],'WinSeries'] = min([0,df_players.at[df_players[irow].index[0],'WinSeries'] - 1])
+                df_players.at[df_players[irow].index[0],'Goals'] += scores.score1
+                df_players.at[df_players[irow].index[0],'GoalsAgainst'] += scores.score2
+            else:
+                if scores.score1 > scores.score2:
+                    df_players.at[df_players[irow].index[0],'WinSeries'] = min([0,df_players.at[df_players[irow].index[0],'WinSeries'] - 1])
+                else:
+                    df_players.at[df_players[irow].index[0],'Wins'] += 1
+                    df_players.at[df_players[irow].index[0],'WinSeries'] += 1
+                df_players.at[df_players[irow].index[0],'Goals'] += scores.score2
+                df_players.at[df_players[irow].index[0],'GoalsAgainst'] += scores.score1
 
-async def choose_player_3():
-    out = await dialog_players
-    choose_player(2,out)
+        # Save database 'players'
+        df_players.to_csv('data/database_players.csv',sep=',',index=False)
+        
+        # Update table
+        from app import table
+        table.rows[:] = df_players.to_dict('records')
+        table.update()
 
-async def choose_player_4():
-    out = await dialog_players
-    choose_player(3,out)
+        # Add game to database 'games'
+        df_games.loc[len(df_games)] = [datestr, players[0].name, players[1].name, players[2].name, players[3].name, 'white', 'black', scores.score1, scores.score2]
 
-def choose_player(i_player, i_row):
-    players[i_player].name = dat[int(i_row)]['Name']
-    players[i_player].id = dat[int(i_row)]['ID']
-    players[i_player].image = dat[i_row]['image']
-    players[i_player].text = dat[i_row]['Name']
-    ui.notify(f'You chose i_player: {i_player} and i_row: {i_row} -> {players[i_player].name}')
+        # Save database 'games'
+        df_games.to_csv('data/database_games.csv',sep=',',index=False)
+
+        # Reset scores
+        scores.score1 = 0
+        scores.score2 = 0
+
