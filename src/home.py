@@ -2,7 +2,8 @@
 from nicegui import app, ui
 
 # Import custom modules
-from init import choose_player_1, choose_player_2, choose_player_3, choose_player_4, players, columns, dat
+from init import players, columns, dat, scores, add_game
+from dialog import choose_player_1, choose_player_2, choose_player_3, choose_player_4
 
 def content() -> None:
     with ui.tab_panel('Home'):
@@ -21,10 +22,10 @@ def content() -> None:
                 with ui.column().classes('justify-center items-around').props('vertical-bottom'):
                     with ui.card():
                         with ui.row().classes('justify-center items-around text-center').style('font-size:40px'):
-                            ui.select([0,1,2,3,4,5,6], value=0).props(add='no-icon-animation').style('font-size:40px; color:rgb(0,60,90);')
+                            ui.select([0,1,2,3,4,5,6], value=0).props(add='no-icon-animation').style('font-size:40px; color:rgb(0,60,90);').bind_value(scores,'score1')
                             ui.label(':')
-                            ui.select([0,1,2,3,4,5,6], value=0).style('font-size:40px')
-                        ui.button('Hinzufügen').style('width:100%')
+                            ui.select([0,1,2,3,4,5,6], value=0).style('font-size:40px').bind_value(scores,'score2')
+                        ui.button('Hinzufügen',on_click=lambda: add_game()).style('width:100%')
                         ui.button('Rematch').style('width: 100%')
 
 
@@ -40,7 +41,7 @@ def content() -> None:
         # Table
         with ui.card():
             with ui.row().classes('w-full justify-center items-around').style('color:rgb(0,60,90)'):
-                table = ui.table(columns=columns, rows=dat).style('height: 62vh; width: 1000px; color:rgb(0,60,90); font-size: 20px; background-color: rgb(240,240,240)')
+                table = ui.table(columns=columns, rows=dat, row_key='Name').style('height: 62vh; width: 1000px; color:rgb(0,60,90); font-size: 20px; background-color: rgb(240,240,240)')
                 table.add_slot('body',
                 r'''
                 <q-tr :props="props">
@@ -69,3 +70,8 @@ def content() -> None:
                     </q-th>
                 </q-tr>
                 ''')
+
+    # Return table
+    return table
+
+
