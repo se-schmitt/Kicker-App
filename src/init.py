@@ -19,6 +19,7 @@ columns = [
     {'name': 'games',       'label': 'Spiele',          'field': 'Games',           'sortable': True,   'align': 'center'},
     {'name': 'wins',        'label': 'Siege',           'field': 'Wins',            'sortable': True,   'align': 'center'},
     {'name': 'winrate',     'label': 'Quote / %',       'field': 'WinRate',         'sortable': True,   'align': 'center'},
+    {'name': 'elo',         'label': 'Elo Rating',      'field': 'Elo',             'sortable': True,   'align': 'center'},
     {'name': 'series',      'label': 'Siegesserie',     'field': 'WinSeries',       'sortable': True,   'align': 'center'},
     {'name': 'goals',       'label': 'Tore',            'field': 'Goals',           'sortable': True,   'align': 'center'},
     {'name': 'goals_a',     'label': 'Gegentore',       'field': 'GoalsAgainst',    'sortable': True,   'align': 'center'},
@@ -37,13 +38,17 @@ class player:
         self.name = name
         self.id = id
         self.image = image
-        self.text = name
 
 # Initialize players
 players = [ player('Spieler 1',1,'media/dummy_player.png'),
             player('Spieler 2',2,'media/dummy_player.png'),
             player('Spieler 3',3,'media/dummy_player.png'),
             player('Spieler 4',4,'media/dummy_player.png')  ]
+rematch_players = [ player('Spieler 1',1,'media/dummy_player.png'),
+            player('Spieler 2',2,'media/dummy_player.png'),
+            player('Spieler 3',3,'media/dummy_player.png'),
+            player('Spieler 4',4,'media/dummy_player.png')  ]
+
 def is_valid_players():
     for i in range(0,4):
         if players[i].name == 'Spieler ' + str(i+1):
@@ -75,7 +80,6 @@ def add_game():
     # Check if it is valid to add game
     if is_valid_players() and scores.is_valid_result():
         # DEBUGGING
-        print(players[0].name)
         print(f"Aktueller Spielstand im Spiel {players[0].name} + {players[1].name} vs. {players[2].name} + {players[3].name}:\n{scores.score1} : {scores.score2}")
 
         datestr = pd.to_datetime('today').strftime("%y-%m-%d %H:%M")
@@ -120,3 +124,26 @@ def add_game():
         scores.score1 = 0
         scores.score2 = 0
 
+        # Set rematch players
+        for i in range(4):
+            if i in [0,1]:
+                i_switch = i+2
+            elif i in [2,3]:
+                i_switch = i-2
+            rematch_players[i].name = players[i_switch].name
+            rematch_players[i].id = players[i_switch].id
+            rematch_players[i].image = players[i_switch].image
+
+        # Reset players
+        for i in range(4):
+            players[i].name = 'Spieler ' + str(i+1)
+            players[i].id = i+1
+            players[i].image = 'media/dummy_player.png'
+
+# Function to set up rematch
+def set_rematch():
+    print('Rematch players: ' + str(rematch_players[1].name) + ' + ' + str(rematch_players[2].name) + ' vs. ' + str(rematch_players[3].name) + ' + ' + str(rematch_players[0].name))
+    for i in range(4):
+        players[i].name = rematch_players[i].name
+        players[i].id = rematch_players[i].id
+        players[i].image = rematch_players[i].image

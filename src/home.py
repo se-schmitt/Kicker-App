@@ -2,7 +2,7 @@
 from nicegui import app, ui
 
 # Import custom modules
-from init import players, columns, dat, scores, add_game
+from init import players, columns, dat, scores, add_game, set_rematch
 from dialog import choose_player_1, choose_player_2, choose_player_3, choose_player_4
 
 def content() -> None:
@@ -15,9 +15,9 @@ def content() -> None:
                         ui.label('Team 1').classes('w-full').style('text-align:center;font-size:24px')
                         with ui.row().classes('w-full justify-center'):
                             with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_1).bind_source(players[0],target_name='image'):
-                                ui.label('Spieler 1').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[0])
+                                ui.label('Spieler 1').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[0],'name')
                             with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_2).bind_source(players[1],target_name='image'):
-                                ui.label('Spieler 2').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[1])
+                                ui.label('Spieler 2').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[1],'name')
 
                 with ui.column().classes('justify-center items-around').props('vertical-bottom'):
                     with ui.card():
@@ -26,7 +26,7 @@ def content() -> None:
                             ui.label(':')
                             ui.select([0,1,2,3,4,5,6], value=0).style('font-size:40px').bind_value(scores,'score2')
                         ui.button('Hinzufügen',on_click=lambda: add_game()).style('width:100%')
-                        ui.button('Rematch').style('width: 100%')
+                        ui.button('Rematch', on_click=lambda: set_rematch()).style('width: 100%')
 
 
                 with ui.column().classes('justify-center'):
@@ -34,9 +34,9 @@ def content() -> None:
                         ui.label('Team 2').classes('w-full').style('text-align:center;font-size:24px')
                         with ui.row().classes('w-full justify-center'):
                             with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_3).bind_source(players[2],target_name='image'):
-                                ui.label('Spieler 3').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[2])
+                                ui.label('Spieler 3').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[2],'name')
                             with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_4).bind_source(players[3],target_name='image'):
-                                ui.label('Spieler 4').classes('absolute-bottom text-subtitle2 text-center').bind_text_from(players[3])
+                                ui.label('Spieler 4').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[3],'name')
         
         # Table
         with ui.card():
