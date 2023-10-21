@@ -2,7 +2,7 @@
 from nicegui import app, ui
 
 # Import custom modules
-from init import players, columns, dat, scores, add_game, set_rematch
+from init import players, columns, df_players, scores, add_game, set_rematch
 from dialog import choose_player_1, choose_player_2, choose_player_3, choose_player_4
 
 def content() -> None:
@@ -41,7 +41,7 @@ def content() -> None:
         # Table
         with ui.card():
             with ui.row().classes('w-full justify-center items-around').style('color:rgb(0,60,90)'):
-                table = ui.table(columns=columns, rows=dat, row_key='Name').style('height: 62vh; width: 1000px; color:rgb(0,60,90); font-size: 20px; background-color: rgb(240,240,240)')
+                table = ui.table(columns=columns, rows=df_players.to_dict('records'), row_key='Name').style('height: 62vh; width: 1000px; color:rgb(0,60,90); font-size: 20px; background-color: rgb(240,240,240)')
                 table.add_slot('body',
                 r'''
                 <q-tr :props="props">
