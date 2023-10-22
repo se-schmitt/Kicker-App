@@ -13,7 +13,6 @@ for i,row in df_players.iterrows():
 df_players.set_index('Name',inplace=True,drop=False)
 
 # Create data and columns properties for table
-# dat = df_players.to_dict('records')
 columns = [
     {'name': 'name',        'label': 'Name',            'field': 'Name',            'sortable': True,   'align': 'left'},
     {'name': 'image',       'label': 'Bild',            'field': 'Image',           'sortable': False,  'align': 'center'},
@@ -35,24 +34,24 @@ ui.colors(primary='rgb(0,60,90)',secondary='rgb(240,240,240)',accent='rgb(255,0,
 
 # Define class for player
 class player:
-    def __init__(self, name, id, image):
+    def __init__(self, name, image):
         self.name = name
         self.image = image
 
 # Initialize players
-players = [ player('Spieler 1',-1,'media/dummy_player.png'),
-            player('Spieler 2',-1,'media/dummy_player.png'),
-            player('Spieler 3',-1,'media/dummy_player.png'),
-            player('Spieler 4',-1,'media/dummy_player.png')  ]
-rematch_players = [ player('Spieler 1',1,'media/dummy_player.png'),
-            player('Spieler 2',2,'media/dummy_player.png'),
-            player('Spieler 3',3,'media/dummy_player.png'),
-            player('Spieler 4',4,'media/dummy_player.png')  ]
+players = [ player('Spieler 1','media/dummy_player.png'),
+            player('Spieler 2','media/dummy_player.png'),
+            player('Spieler 3','media/dummy_player.png'),
+            player('Spieler 4','media/dummy_player.png')  ]
+rematch_players = [ player('Spieler 1','media/dummy_player.png'),
+            player('Spieler 2','media/dummy_player.png'),
+            player('Spieler 3','media/dummy_player.png'),
+            player('Spieler 4','media/dummy_player.png')  ]
 
 def is_valid_players():
     for i in range(0,4):
         if players[i].name == 'Spieler ' + str(i+1):
-            ui.notify(f'Bitte wähle Spieler {i+1} aus!')
+            ui.notify(f'Bitte wähle Spieler {i+1} aus!', type='negative')
             return False
     return True
 
@@ -66,10 +65,10 @@ class score:
         out = True
         if not self.score1 == 6 and not self.score2 == 6:
             out = False
-            ui.notify('Noch steht kein Sieger fest! Eine Mannschaft muss 6 Tore erreichen.')
+            ui.notify('Noch steht kein Sieger fest! Eine Mannschaft muss 6 Tore erreichen.', type='negative')
         elif self.score1 == self.score2:
             out = False
-            ui.notify('Hier ist etwas schief gelaufen! Es darf keinen Gleichstand geben.')
+            ui.notify('Hier ist etwas schief gelaufen! Es darf keinen Gleichstand geben.', type='negative')
         return out
 
 # Initialize scores
@@ -79,29 +78,18 @@ scores = score(0,0)
 def add_game():
     # Check if it is valid to add game
     if is_valid_players() and scores.is_valid_result():
-        # DEBUGGING
-        print(f"Aktueller Spielstand im Spiel {players[0].name} + {players[1].name} vs. {players[2].name} + {players[3].name}:\n{scores.score1} : {scores.score2}")
-
         datestr = pd.to_datetime('today').strftime("%y-%m-%d %H:%M")
-        
-        print('-------------------')
-        print('score 1: ' + str(scores.score1))
-        print('score 2: ' + str(scores.score2))
 
         # Add game to database 'players'
         for i in range(4):
             id = players[i].name
             df_players.at[id,'Games'] += 1
             df_players.at[id,'LastGame_Date'] = datestr
-            
-            print(df_players.at[id,'Name'] )
-            print(df_players.at[id,'Games'] )
 
             if i in [0,1]:
                 if scores.score1 > scores.score2:
                     df_players.at[id,'Wins'] += 1
                     df_players.at[id,'WinSeries'] = max([1,df_players.at[id,'WinSeries'] + 1])
-                    print(max([1,df_players.at[id,'WinSeries'] + 1]))
                 else:
                     df_players.at[id,'WinSeries'] = min([-1,df_players.at[id,'WinSeries'] - 1])
                 df_players.at[id,'Goals'] += scores.score1
@@ -119,7 +107,7 @@ def add_game():
             df_players.at[id,'WinRate'] = round(df_players.at[id,'Wins'] / df_players.at[id,'Games']*100,1)
 
         # Update ELO scores
-        # update_elo(df_players,[p.name for p in players],scores.score1,scores.score2)
+        update_elo(df_players,[p.name for p in players],scores.score1,scores.score2)
 
         # Save database 'players'
         df_players.to_csv('data/database_players.csv',sep=',',index=False)
@@ -155,7 +143,6 @@ def add_game():
 
 # Function to set up rematch
 def set_rematch():
-    print('Rematch players: ' + str(rematch_players[1].name) + ' + ' + str(rematch_players[2].name) + ' vs. ' + str(rematch_players[3].name) + ' + ' + str(rematch_players[0].name))
     for i in range(4):
         players[i].name = rematch_players[i].name
         players[i].image = rematch_players[i].image
@@ -164,11 +151,23 @@ def set_rematch():
 # https://towardsdatascience.com/developing-an-elo-based-data-driven-ranking-system-for-2v2-multiplayer-games-7689f7d42a53
 def update_elo(df,ids,s1,s2):
     # Set parameter
+    R_old = [df.at[id,'Elo'] for id in ids]
+    K = []
+    for id in ids:
+        K.append(50 / (1 + df.at[id,'Games'] / 200))
+    P = 1 + abs(s1-s2)/6
 
     # Calculate winning probability for each team
-    (Ep1,Ep2,Ep3,Ep4),(Et1,Et2) = calc_win_prob(R_old)
+    Eps,Ets = calc_win_prob(R_old)
 
     # Calculate new ELO scores for each player
+    for (i,id) in enumerate(ids):
+        if id in [ids[0],ids[1]]:
+            S = 1 if s1 > s2 else 0
+        else:
+            S = 1 if s1 < s2 else 0
+        df.at[id,'Elo'] += K[i] * P * (S - Eps[i])
+        df.at[id,'Elo'] = round(df.at[id,'Elo'],1)
 
     return 0
 

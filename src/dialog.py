@@ -47,4 +47,3 @@ def choose_player(i_player, id_name):
     if id_name is not None:
         players[i_player].name = df_players.at[id_name,'Name']
         players[i_player].image = df_players.at[id_name,'Image']
-        ui.notify(f'You chose i_player: {i_player} and i_row: {id_name} -> {players[i_player].name}')
