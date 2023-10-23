@@ -3,7 +3,8 @@ from nicegui import app, ui
 import cv2, os.path
 
 # Import custom modules
-from init import df_players, player
+from init import df_players, player, clear_tmp
+# from home import table
 
 is_file_uploaded = False
 k_factor = 1.5
@@ -20,16 +21,16 @@ with ui.dialog() as dialog_add_player:
     new_player = player('','media/dummy_player.png')
     with ui.card():
         ui.label('Spieler hinzufügen').style('font-size: 20px; font-weight: bold;')
-        ui.input(placeholder='Hier Namen eingeben').bind_value_to(new_player,'name').style('font-size: 20px; font-weight: bold;')
-        ui.upload(on_upload=lambda e: save_file_in_media(e,new_player), auto_upload=True, max_files=1).bind_enabled(new_player,target_name='image').bind_visibility_from(new_player,'name',lambda x: len(x) > 0 and not is_file_uploaded) #os.path.isfile(new_player.image.replace('.png','_original.png')
+        input = ui.input(placeholder='Hier Namen eingeben').bind_value(new_player,'name').style('font-size: 20px; font-weight: bold;')
+        upload = ui.upload(on_upload=lambda e: save_file_in_media(e,new_player), auto_upload=True, max_files=1).bind_enabled(new_player,target_name='image').bind_visibility_from(new_player,'name',lambda x: len(x) > 0 and not is_file_uploaded)
         image = ui.image().bind_visibility_from(new_player,'image',lambda x: x != 'media/dummy_player.png')
         with ui.row().bind_visibility_from(new_player,'image',lambda x: x != 'media/dummy_player.png').classes('w-full justify-center items-around text-center'):
-            ui.button('-', on_click=lambda: crop_to_square_with_face_increase_k(new_player.image.replace('.png','_original.png'), new_player.image, 0.1)).style('width: 100px;')
-            ui.label('Ausschnitt anpassen')#.classes('w-full justify-center items-around text-center')
-            ui.button('+', on_click=lambda: crop_to_square_with_face_decrease_k(new_player.image.replace('.png','_original.png'), new_player.image, 0.1)).style('width: 100px;')
+            ui.button('-', on_click=lambda: crop_to_square_with_face_increase_k(new_player.image, 0.1)).style('width: 100px;')
+            ui.label('Ausschnitt anpassen')
+            ui.button('+', on_click=lambda: crop_to_square_with_face_decrease_k(new_player.image, 0.1)).style('width: 100px;')
         with ui.row().bind_visibility_from(new_player,'name',lambda x: len(x) > 0).classes('w-full justify-center items-around text-center'):
             ui.button('Spieler hinzufügen', on_click=lambda: add_player_to_db(new_player)).style('font-weight: bold;')
-            ui.button('Abbrechen', on_click=lambda: print(new_player.image)).style('font-weight: bold; background-color: rgb(255,0,0);')
+            ui.button('Abbrechen', on_click=lambda: end_dialog_add_player()).style('font-weight: bold; background-color: rgb(255,0,0);')
 
 # Function to set image file name
 def save_file_in_media(e,new_player):
@@ -37,17 +38,22 @@ def save_file_in_media(e,new_player):
 
     # Save file as 'original'
     new_player.image = 'media/' + new_player.name + '.png'
-    with open(new_player.image.replace('.png','_original.png'),'wb') as f:
+    with open(make_ori(new_player.image),'wb') as f:
         f.write(e.content.read())
 
     # Crop image
-    crop_to_square_with_face(new_player.image.replace('.png','_original.png'), new_player.image, k_factor)
+    crop_to_square_with_face(new_player.image, k_factor)
 
     is_file_uploaded = True
 
+    print(len(new_player.name) > 0 and not is_file_uploaded)
+
 # Function to crop image
-def crop_to_square_with_face(image_path, output_path, k):
+def crop_to_square_with_face(output_path, k):
     global count
+
+    # Create paths
+    image_path = make_ori(output_path)
 
     # Load the image
     img = cv2.imread(image_path)
@@ -84,10 +90,10 @@ def crop_to_square_with_face(image_path, output_path, k):
         
         # Save the cropped image
         cv2.imwrite(output_path, cropped_img)
-        cv2.imwrite(output_path.replace('.png','_'+str(count)+'.png'), cropped_img)
+        cv2.imwrite(make_tmp(output_path).replace('.png','_'+str(count)+'.png'), cropped_img)
         
         # image.set_source('media/dummy_player.png')
-        image.set_source(output_path.replace('.png','_'+str(count)+'.png'))
+        image.set_source(make_tmp(output_path).replace('.png','_'+str(count)+'.png'))
 
         count += 1
         print(f"Image cropped and saved to {output_path}")
@@ -95,16 +101,74 @@ def crop_to_square_with_face(image_path, output_path, k):
         print("No face detected in the image")
 
 # Help functions to adjust crop size
-def crop_to_square_with_face_increase_k(image_path, output_path, k):
+def crop_to_square_with_face_increase_k(output_path, k):
     global k_factor
     k_factor += k
-    crop_to_square_with_face(image_path, output_path, k_factor)
+    crop_to_square_with_face(output_path, k_factor)
 
-def crop_to_square_with_face_decrease_k(image_path, output_path, k):
+def crop_to_square_with_face_decrease_k(output_path, k):
     global k_factor
     k_factor -= k
-    crop_to_square_with_face(image_path, output_path, k_factor)
+    crop_to_square_with_face(output_path, k_factor)
+
+# Help functions to define path
+def make_tmp(path):
+    return path.replace('media/','media/tmp/')
+def make_ori(path):
+    path = make_tmp(path)
+    return path.replace('.png','_original.png')
 
 # Function to add player to database
 def add_player_to_db(p):
-    df_players.loc[len(df_players)] = [p.name, 1000, p.image]
+    global df_players
+    
+    # Define new row
+    new_row = { 'Pokale':       0,	
+                'Games':        0,
+                'Wins':         0,
+                'Goals':        0,
+                'GoalsAgainst': 0,
+                'WinSeries':    0,
+                'LastGame_Date':'-',
+                'Name':         p.name,
+                'WinRate':      0,
+                'Image':        p.image,
+                'Elo':          1000}
+    
+    if p.name in df_players['Name'].values:
+        ui.notify('Spieler existiert bereits!', type='negative')
+    else:
+        # Update row
+        df_players.loc[p.name] = new_row
+
+        # Save database 'players'
+        df_players.to_csv('data/database_players.csv',sep=',',index=False)
+        df_players.sort_index(inplace=True)
+        
+        # # Update table
+        # from home import table
+        # table.rows[:] = df_players.to_dict('records')
+        # table.update()
+
+        # Notify user
+        ui.notify(f'Spieler "{p.name}" erfolgreich hinzugefügt!', type='positive')
+    
+    # End dialog
+    end_dialog_add_player()
+
+# Function to end dialog
+def end_dialog_add_player() -> None:
+    global is_file_uploaded, k_factor, count, new_player
+    
+    # Reset variables
+    is_file_uploaded = False
+    k_factor = 1.5
+    count = 0
+    
+    # Reset player
+    new_player.name = ''
+    new_player.image = 'media/dummy_player.png'
+    
+    # Close dialog and clear tmp folder
+    dialog_add_player.close()
+    clear_tmp()

@@ -2,6 +2,7 @@
 from nicegui import app, ui
 import pandas as pd
 from os.path import isfile
+from os import listdir, remove
 
 # Reading database 'players'
 df_players = pd.read_csv('data/database_players.csv',sep=',')
@@ -31,6 +32,13 @@ df_games = pd.read_csv('data/database_games.csv',sep=',')
 
 # Set colors
 ui.colors(primary='rgb(0,60,90)',secondary='rgb(240,240,240)',accent='rgb(255,0,0)')
+
+# Remove all files from tmp folder
+def clear_tmp():
+    list = listdir('media/tmp/')
+    for f in list:
+        remove('media/tmp/' + f)
+clear_tmp()
 
 # Define class for player
 class player:
@@ -188,3 +196,4 @@ def calc_win_prob(Rall):
     Et2 = (Ep3 + Ep4) / 2
 
     return (Ep1,Ep2,Ep3,Ep4),(Et1,Et2)
+
