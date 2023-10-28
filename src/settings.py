@@ -37,7 +37,7 @@ def save_file_in_media(e,new_player):
     global is_file_uploaded
 
     # Save file as 'original'
-    new_player.image = 'media/' + new_player.name + '.png'
+    new_player.image = 'media/image_' + new_player.name + '.png'
     with open(make_ori(new_player.image),'wb') as f:
         f.write(e.content.read())
 
@@ -145,10 +145,10 @@ def add_player_to_db(p):
         df_players.to_csv('data/database_players.csv',sep=',',index=False)
         df_players.sort_index(inplace=True)
         
-        # # Update table
-        # from home import table
-        # table.rows[:] = df_players.to_dict('records')
-        # table.update()
+        # Update table
+        from app import table
+        table.rows[:] = df_players.to_dict('records')
+        table.update()
 
         # Notify user
         ui.notify(f'Spieler "{p.name}" erfolgreich hinzugefügt!', type='positive')
