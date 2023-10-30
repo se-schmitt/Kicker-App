@@ -7,16 +7,16 @@ from dialog import choose_player_1, choose_player_2, choose_player_3, choose_pla
 
 def content() -> None:
     with ui.tab_panel('Home').style('background-color: rgb(255,255,255)'):
-        with ui.column().classes('justify-center items-around'):
+        with ui.column().classes('w-full justify-center items-around'):
             # Spielstand
             with ui.row().classes('w-full justify-center items-around').style('height: 21vh'):
                 with ui.column().classes('justify-center'):
                     with ui.card().style('background-color: rgb(255,255,255)'):
                         ui.label('Team weiß').classes('w-full').style('text-align:center;font-size:24px')
                         with ui.row().classes('w-full justify-center'):
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_1).bind_source(players[0],target_name='image'):
+                            with ui.image('/media/dummy_player.png').style('width:150px; clip-path: circle(50% at center)').on('click',choose_player_1).bind_source(players[0],target_name='image'):
                                 ui.label('Spieler 1').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[0],'name')
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_2).bind_source(players[1],target_name='image'):
+                            with ui.image('/media/dummy_player.png').style('width:150px; clip-path: circle(50% at center)').on('click',choose_player_2).bind_source(players[1],target_name='image'):
                                 ui.label('Spieler 2').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[1],'name')
 
                 with ui.column().classes('justify-center items-around').props('vertical-bottom'):
@@ -33,9 +33,9 @@ def content() -> None:
                     with ui.card().style('background-color: rgb(50,50,50)'):
                         ui.label('Team schwarz').classes('w-full').style('text-align:center; font-size:24px; color:rgb(255,255,255)')
                         with ui.row().classes('w-full justify-center'):
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_3).bind_source(players[2],target_name='image'):
+                            with ui.image('/media/dummy_player.png').style('width:150px; clip-path: circle(50% at center)').on('click',choose_player_3).bind_source(players[2],target_name='image'):
                                 ui.label('Spieler 3').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[2],'name')
-                            with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_4).bind_source(players[3],target_name='image'):
+                            with ui.image('/media/dummy_player.png').style('width:150px; clip-path: circle(50% at center)').on('click',choose_player_4).bind_source(players[3],target_name='image'):
                                 ui.label('Spieler 4').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[3],'name')
             
             # Table

@@ -6,7 +6,7 @@ from os import listdir, remove
 from shutil import copyfile
 
 # Create backup of database 'players' and 'games'
-path_backup = ''
+path_backup = 'C:/Users/LTD'
 if not path_backup == '':
     copyfile('data/database_players.csv',path_backup + '/database_players_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')
     copyfile('data/database_games.csv',path_backup + '/database_games_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')

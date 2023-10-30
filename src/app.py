@@ -3,7 +3,7 @@ from nicegui import app, ui
 import pandas as pd
 
 # Import custom modules
-import home, settings
+import home, settings, statistic
 
 # General settings
 app.add_static_files('/media', 'media')
@@ -26,8 +26,9 @@ with tab_panels:
     table = home.content()
 
     # Tab 'Statistik'
-    with ui.tab_panel('Statistik'):
-        ui.label('This is the second tab')
+    statistic.content()
+    # with ui.tab_panel('Statistik'):
+    #     ui.label('This is the second tab')
 
     # Tab 'Turnier'
     with ui.tab_panel('Turnier'):

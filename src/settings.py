@@ -4,7 +4,7 @@ import cv2, os.path
 
 # Import custom modules
 from init import df_players, player, clear_tmp
-# from home import table
+from dialog import dialog_players, load_dialog_players
 
 is_file_uploaded = False
 k_factor = 1.5
@@ -14,13 +14,13 @@ def content() -> None:
     with ui.tab_panel('Einstellungen').style('background-color: rgb(255,255,255)'):
         with ui.card():
             ui.label('Allgemeine Einstellungen')
-            ui.button('Spieler hinzufügen', on_click=lambda: dialog_add_player.open())
+            ui.button('Spieler*in hinzufügen', on_click=lambda: dialog_add_player.open())
 
 # Function to add player
 with ui.dialog() as dialog_add_player:
     new_player = player('','media/dummy_player.png')
     with ui.card():
-        ui.label('Spieler hinzufügen').style('font-size: 20px; font-weight: bold;')
+        ui.label('Spieler*in hinzufügen').style('font-size: 20px; font-weight: bold;')
         input = ui.input(placeholder='Hier Namen eingeben').bind_value(new_player,'name').style('font-size: 20px; font-weight: bold;')
         upload = ui.upload(on_upload=lambda e: save_file_in_media(e,new_player), auto_upload=True, max_files=1).bind_enabled(new_player,target_name='image').bind_visibility_from(new_player,'name',lambda x: len(x) > 0 and not is_file_uploaded)
         image = ui.image().bind_visibility_from(new_player,'image',lambda x: x != 'media/dummy_player.png')
@@ -29,7 +29,7 @@ with ui.dialog() as dialog_add_player:
             ui.label('Ausschnitt anpassen')
             ui.button('+', on_click=lambda: crop_to_square_with_face_decrease_k(new_player.image, 0.1)).style('width: 100px;')
         with ui.row().bind_visibility_from(new_player,'name',lambda x: len(x) > 0).classes('w-full justify-center items-around text-center'):
-            ui.button('Spieler hinzufügen', on_click=lambda: add_player_to_db(new_player)).style('font-weight: bold;')
+            ui.button('Spieler*in hinzufügen', on_click=lambda: add_player_to_db(new_player)).style('font-weight: bold;')
             ui.button('Abbrechen', on_click=lambda: end_dialog_add_player()).style('font-weight: bold; background-color: rgb(255,0,0);')
 
 # Function to set image file name
@@ -155,6 +155,13 @@ def add_player_to_db(p):
     
     # End dialog
     end_dialog_add_player()
+
+    # Reload dialog_players
+    # global dialog_players 
+    # dialog_players = load_dialog_players()
+    # dialog_players.close()
+    # dialog_players.open()
+    # dialog_players.set_visibility(False)
 
 # Function to end dialog
 def end_dialog_add_player() -> None:
