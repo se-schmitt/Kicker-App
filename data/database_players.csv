@@ -15,12 +15,12 @@ Pokale,Games,Wins,Goals,GoalsAgainst,WinSeries,LastGame_Date,Name,WinRate,Image,
 0.0,5.0,4.0,24.0,6.0,2.0,23-08-12 14:20,Ellen,80.0,media/dummy_player.png,10.0
 0.0,7.0,4.0,28.0,23.0,1.0,23-10-21 10:46,Elmar,57.1,media/dummy_player.png,10.0
 0.0,8.0,6.0,40.0,28.0,-1.0,23-10-21 10:46,Fabian,75.0,media/dummy_player.png,10.0
-0.0,23.0,10.0,90.0,101.0,-3.0,23-10-21 16:14,Florian,43.5,media/image_Florian.png,-40.0
+0.0,24.0,11.0,96.0,101.0,1.0,23-10-23 23:47,Florian,45.8,media/image_Florian.png,8.6
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Gast,,media/dummy_player.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Hans,,media/dummy_player.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,HiWi,,media/dummy_player.png,10.0
 0.0,9.0,7.0,50.0,21.0,5.0,23-10-17 21:12,Ilona,77.8,media/dummy_player.png,10.0
-0.0,33.0,14.0,123.0,139.0,1.0,23-10-21 16:04,Jana,42.4,media/image_Jana.png,33.0
+0.0,35.0,15.0,129.0,145.0,-1.0,23-10-23 23:47,Jana,42.9,media/image_Jana.png,111.2
 0.0,10.0,7.0,47.0,34.0,0.0,23-10-17 21:02,Jannette,70.0,media/dummy_player.png,10.0
 0.0,5.0,2.0,20.0,25.0,-1.0,23-08-12 13:27,Jennifer,40.0,media/dummy_player.png,10.0
 0.0,13.0,5.0,41.0,48.0,-2.0,23-08-12 14:22,Jens,38.5,media/image_Jens.png,10.0
@@ -29,12 +29,12 @@ Pokale,Games,Wins,Goals,GoalsAgainst,WinSeries,LastGame_Date,Name,WinRate,Image,
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Joshua,,media/dummy_player.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Julian,,media/dummy_player.png,10.0
 0.0,1.0,0.0,3.0,6.0,-1.0,12.08.23 00:13,Julie,0.0,media/dummy_player.png,10.0
-0.0,44.0,24.0,199.0,179.0,-2.0,23-10-21 16:14,Justus,54.5,media/image_Justus.png,-35.7
+0.0,45.0,24.0,199.0,185.0,-3.0,23-10-23 23:47,Justus,53.3,media/image_Justus.png,-73.5
 0.0,9.0,4.0,30.0,30.0,-3.0,23-10-17 21:00,Kai,44.4,media/dummy_player.png,10.0
 0.0,5.0,5.0,30.0,3.0,5.0,23-09-04 20:49,Katharina,100.0,media/image_Katharina.png,10.0
 0.0,6.0,2.0,21.0,32.0,-2.0,12.08.23 01:36,Kerstin,33.3,media/dummy_player.png,10.0
 0.0,4.0,2.0,16.0,15.0,0.0,23-08-12 13:59,Kirsten,50.0,media/dummy_player.png,10.0
-0.0,26.0,10.0,104.0,131.0,-3.0,23-10-21 11:07,Marco,38.5,media/image_Marco.png,10.0
+0.0,27.0,11.0,110.0,131.0,1.0,23-10-23 23:45,Marco,40.7,media/image_Marco.png,54.1
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Marlies,,media/dummy_player.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Martin,,media/dummy_player.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,MaximilianD,,media/dummy_player.png,10.0
@@ -42,16 +42,29 @@ Pokale,Games,Wins,Goals,GoalsAgainst,WinSeries,LastGame_Date,Name,WinRate,Image,
 0.0,3.0,2.0,17.0,13.0,0.0,23-08-12 10:28,Michael,66.7,media/dummy_player.png,10.0
 0.0,1.0,0.0,0.0,6.0,-1.0,23-08-12 14:25,Michaela,0.0,media/dummy_player.png,10.0
 0.0,9.0,1.0,12.0,48.0,-7.0,23-08-12 14:16,Nadia,11.1,media/dummy_player.png,10.0
-0.0,6.0,2.0,17.0,29.0,-1.0,23-10-21 11:11,Nicolas,33.3,media/image_Nicolas.png,10.0
+0.0,7.0,3.0,23.0,29.0,1.0,23-10-23 23:45,Nicolas,42.9,media/image_Nicolas.png,58.3
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Nicole,,media/dummy_player.png,10.0
 0.0,26.0,17.0,133.0,99.0,2.0,14.03.23 13:28,Oliver,65.4,media/dummy_player.png,10.0
 0.0,6.0,0.0,6.0,36.0,-6.0,11.08.23 23:32,Raphael,0.0,media/dummy_player.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Richard,,media/dummy_player.png,10.0
 0.0,13.0,8.0,56.0,58.0,-2.0,23-10-21 11:11,Sarah,61.5,media/image_Sarah.png,10.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,Sarah_Zeno,0.0,media/image_Sarah_Zeno.png,1000.0
 0.0,42.0,26.0,193.0,150.0,2.0,23-10-21 11:15,Sebastian,61.9,media/image_Sebastian.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Silvie,,media/dummy_player.png,10.0
 0.0,4.0,3.0,18.0,8.0,2.0,23-08-12 14:26,Simon,75.0,media/dummy_player.png,10.0
 0.0,0.0,0.0,0.0,0.0,0.0,01.01.23 00:00,Tanja,,media/dummy_player.png,10.0
-0.0,11.0,3.0,30.0,48.0,-1.0,23-10-21 11:15,Thomas,27.3,media/image_Thomas.png,10.0
+0.0,12.0,3.0,30.0,54.0,-2.0,23-10-23 23:45,Thomas,25.0,media/image_Thomas.png,-37.2
 0.0,7.0,4.0,26.0,18.0,-2.0,23-10-21 11:15,Vilde,57.1,media/image_Vilde.png,10.0
-0.0,10.0,6.0,36.0,29.0,1.0,23-10-21 11:15,Zeno,60.0,media/image_Zeno.png,10.0
+0.0,11.0,6.0,36.0,35.0,-1.0,23-10-23 23:45,Zeno,54.5,media/image_Zeno.png,-37.4
+0.0,0.0,0.0,0.0,0.0,0.0,-,fred,,media/image_fred.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,frede,,media/image_frede.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test1,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test2,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test23,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test3,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test5,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test6,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,test8,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,ttest,,media/dummy_player.png,1000.0
+0.0,0.0,0.0,0.0,0.0,0.0,-,Vilde2,0.0,media/image_Vilde2.png,1000.0

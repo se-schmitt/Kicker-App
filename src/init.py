@@ -3,6 +3,14 @@ from nicegui import app, ui
 import pandas as pd
 from os.path import isfile
 from os import listdir, remove
+from shutil import copyfile
+
+# Create backup of database 'players' and 'games'
+path_backup = ''
+if not path_backup == '':
+    copyfile('data/database_players.csv',path_backup + '/database_players_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')
+    copyfile('data/database_games.csv',path_backup + '/database_games_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')
+
 
 # Reading database 'players'
 df_players = pd.read_csv('data/database_players.csv',sep=',')

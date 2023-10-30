@@ -12,7 +12,7 @@ app.add_static_files('/media', 'media')
 with ui.header().classes('w-full justify-between  items-center').style('color:rgb(0,60,90);background:rgb(160,160,160);height:7%'):
     ui.label('LTD Kicker App').classes('font-bold').style('font-size: 20px')
     tabs = ui.tabs().props('inline-label').classes('inline-label')
-    imag = ui.image('https://mv.rptu.de/fileadmin/_processed_/4/d/csm_LTD_LOGO_DE_0_95_140_5f0ada1f40.png').style('width:150px;text-align:right;') #.classes('col self-end')
+    imag = ui.image('media/LTD_Logo_DE.png').style('width:200px;text-align:right;') #.classes('col self-end')
 with tabs:
     ui.tab('Home', icon='home')
     ui.tab('Statistik', icon='leaderboard')

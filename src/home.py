@@ -7,8 +7,8 @@ from dialog import choose_player_1, choose_player_2, choose_player_3, choose_pla
 
 def content() -> None:
     with ui.tab_panel('Home').style('background-color: rgb(255,255,255)'):
-        # Spielstand
-        with ui.card().style('background-color: rgb(220,220,220)'):
+        with ui.column().classes('justify-center items-around'):
+            # Spielstand
             with ui.row().classes('w-full justify-center items-around').style('height: 21vh'):
                 with ui.column().classes('justify-center'):
                     with ui.card().style('background-color: rgb(255,255,255)'):
@@ -37,11 +37,10 @@ def content() -> None:
                                 ui.label('Spieler 3').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[2],'name')
                             with ui.image('/media/dummy_player.png').style('width:150px').on('click',choose_player_4).bind_source(players[3],target_name='image'):
                                 ui.label('Spieler 4').classes('absolute-bottom text-subtitle2 text-center').bind_text(players[3],'name')
-        
-        # Table
-        with ui.card().style('background-color: rgb(220,220,220)'):
+            
+            # Table
             with ui.row().classes('w-full justify-center items-around').style('color:rgb(0,60,90)'):
-                table = ui.table(columns=columns, rows=df_players.to_dict('records'), row_key='Name').style('height: 62vh; width: 1000px; color:rgb(0,60,90); font-size: 20px; background-color: rgb(240,240,240)')
+                table = ui.table(columns=columns, rows=df_players.to_dict('records'), row_key='Name').style('height: 62vh; width: 1200px; color:rgb(0,60,90); font-size: 28px; background-color: rgb(240,240,240)')
                 table.add_slot('body',
                 r'''
                 <q-tr :props="props">
