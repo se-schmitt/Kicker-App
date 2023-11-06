@@ -12,17 +12,19 @@ Zum Installieren aller benötigten Pakete folgenden Befehl ausführen:
 pip install -r requirements.txt
 ```
 
-## Anforderungen
+## Bugs
 
-### Must Haves
-
-- [ ] speichern von neuen Spielen durch Auswahl der Spieler und Eingabe des Ergebnisses
-- [ ] Anzeige einer Tabelle mit Statistiken (Spalten: Name, Anzahl Spiele, Siegesquote, Siegesserie, Tore, Gegentore, letztes Spiel gespielt am, ...)
-- [ ] Auswahl der Spieler anhand von Bildern in Untermenü
-- [ ] Rematch Button
-
-### Nice to have
+## Neue Features
 
 - [ ] Animationen bei Eintragen des Spiels
-- [ ] Optimiert für Toucheingabe
-
+- [ ] Statistik-Seite
+    - [ ] Persönliche Statistik
+        - [ ] Best Buddy (meiste Spiele/Siege)
+        - [ ] Angstgegner (meiste Niederlagen)
+        - [ ] letzten Spiele (Verlauf-Graph)
+        - [ ] ELO Entwickling (Graph + Tendenz)
+- [ ] Erwartungswert für Spiel anzeigen
+- [ ] Einbinden der Webcam für Bilder
+- [ ] 'Bild ändern'-Button
+- [ ] Turnier-Tab
+- [ ] Undo-Button (wird für 10 s angezeigt)
