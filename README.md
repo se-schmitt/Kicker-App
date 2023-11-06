@@ -9,9 +9,7 @@ ACHTUNG: Läuft (noch) nicht mit Python 3.12. Läuft auf jeden Fall mit [Python 
 Zum Installieren aller benötigten Pakete folgenden Befehl ausführen:
 
 ```
-function test() {
-  console.log("pip install -r requirements.txt");
-}
+pip install -r requirements.txt
 ```
 
 ## Anforderungen
