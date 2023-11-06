@@ -6,6 +6,14 @@ App zum Speichern von Kicker Spielen
 
 ACHTUNG: Läuft (noch) nicht mit Python 3.12. Läuft auf jeden Fall mit [Python 3.11](https://www.python.org/downloads/release/python-3115/).
 
+Zum Installieren aller benötigten Pakete folgenden Befehl ausführen:
+
+```
+function test() {
+  console.log("pip install -r requirements.txt");
+}
+```
+
 ## Anforderungen
 
 ### Must Haves

@@ -1,12 +1,17 @@
 # Import public modules
 from nicegui import app, ui
 import pandas as pd
-from os.path import isfile
-from os import listdir, remove
+from os.path import isfile, isdir
+from os import listdir, remove, mkdir
 from shutil import copyfile
+from pathlib import Path
+homepath = str(Path.home())
 
 # Create backup of database 'players' and 'games'
-path_backup = 'C:/Users/LTD'
+path_backup = homepath + '/kicker-app_backup'
+# Check if backup folder exists
+if not isdir(path_backup):
+    mkdir(path_backup)
 if not path_backup == '':
     copyfile('data/database_players.csv',path_backup + '/database_players_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')
     copyfile('data/database_games.csv',path_backup + '/database_games_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')

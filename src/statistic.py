@@ -3,7 +3,7 @@ from nicegui import app, ui
 import cv2, os.path
 import pandas as pd
 
-path_old = 'C:/Users/LTD/log.txt'
+path_old = 'data/old/log.txt'
 
 # Import custom modules
 from init import df_players, player, clear_tmp
