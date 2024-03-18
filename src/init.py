@@ -1,20 +1,15 @@
 # Import public modules
 from nicegui import app, ui
 import pandas as pd
-from os.path import isfile, isdir
-from os import listdir, remove, mkdir
+from os.path import isfile
+from os import listdir, remove
 from shutil import copyfile
-from pathlib import Path
-homepath = str(Path.home())
 
 # Create backup of database 'players' and 'games'
-path_backup = homepath + '/kicker-app_backup'
-# Check if backup folder exists
-if not isdir(path_backup):
-    mkdir(path_backup)
+path_backup = 'C:/Users/fleckenstein/Documents'
 if not path_backup == '':
-    copyfile('data/database_players.csv',path_backup + '/database_players_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')
-    copyfile('data/database_games.csv',path_backup + '/database_games_' + pd.to_datetime('today').strftime("%y-%m-%d_%H:%M") + '.csv')
+    copyfile('data/database_players.csv',path_backup + '/database_players_' + pd.to_datetime('today').strftime("%y-%m-%d_%H.%M") + '.csv')
+    copyfile('data/database_games.csv',path_backup + '/database_games_' + pd.to_datetime('today').strftime("%y-%m-%d_%H.%M") + '.csv')
 
 
 # Reading database 'players'
@@ -175,7 +170,7 @@ def update_elo(df,ids,s1,s2):
     R_old = [df.at[id,'Elo'] for id in ids]
     K = []
     for id in ids:
-        K.append(50 / (1 + df.at[id,'Games'] / 200))
+        K.append(40)
     P = 1 + abs(s1-s2)/6
 
     # Calculate winning probability for each team
@@ -184,11 +179,21 @@ def update_elo(df,ids,s1,s2):
     # Calculate new ELO scores for each player
     for (i,id) in enumerate(ids):
         if id in [ids[0],ids[1]]:
-            S = 1 if s1 > s2 else 0
+            if s1 > s2:
+                S = 1  
+                df.at[id,'Elo'] += (1-(R_old[i]/(R_old[0]+R_old[1]))) *  K[i] * P * (S - Ets[0])
+            else:
+                S = 0
+                df.at[id,'Elo'] += (R_old[i]/(R_old[0]+R_old[1])) *  K[i] * P * (S - Ets[0])
         else:
-            S = 1 if s1 < s2 else 0
-        df.at[id,'Elo'] += K[i] * P * (S - Eps[i])
-        df.at[id,'Elo'] = round(df.at[id,'Elo'],1)
+            if s2 > s1:
+                S = 1  
+                df.at[id,'Elo'] += (1-(R_old[i]/(R_old[2]+R_old[3]))) *  K[i] * P * (S - Ets[1])
+            else:
+                S = 0
+                df.at[id,'Elo'] += (R_old[i]/(R_old[2]+R_old[3])) *  K[i] * P * (S - Ets[1])
+        
+        df.at[id,'Elo'] = round(df.at[id,'Elo'],1) 
 
     return 0
 

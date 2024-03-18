@@ -14,7 +14,7 @@ global dialog_players
 def load_dialog_players():
     global dialog_players
     with ui.dialog() as dialog_players, ui.card().props('bordered horizontal').style('max-width:350vh'):
-        with ui.grid(columns=8).style('width:150vh'):
+        with ui.grid(columns=8).style('width:140vh'):
             for i,row in df_players.iterrows():
                 with ui.image(row['Image']).on('click',make_lambda(i)).style('width:100%; display: block; margin-left: auto; margin-right: auto; clip-path: circle(50% at center)'):
                     ui.label(row['Name']).classes('absolute-bottom text-subtitle2 text-center').style('line-height:0%; text-align: center')

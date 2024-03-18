@@ -2,29 +2,17 @@
 
 App zum Speichern von Kicker Spielen
 
-## Installation
+## Anforderungen
 
-ACHTUNG: Läuft (noch) nicht mit Python 3.12. Läuft auf jeden Fall mit [Python 3.11](https://www.python.org/downloads/release/python-3115/).
+### Must Haves
 
-Zum Installieren aller benötigten Pakete folgenden Befehl ausführen:
+- [ ] speichern von neuen Spielen durch Auswahl der Spieler und Eingabe des Ergebnisses
+- [ ] Anzeige einer Tabelle mit Statistiken (Spalten: Name, Anzahl Spiele, Siegesquote, Siegesserie, Tore, Gegentore, letztes Spiel gespielt am, ...)
+- [ ] Auswahl der Spieler anhand von Bildern in Untermenü
+- [ ] Rematch Button
 
-```
-pip install -r requirements.txt
-```
-
-## Bugs
-
-## Neue Features
+### Nice to have
 
 - [ ] Animationen bei Eintragen des Spiels
-- [ ] Statistik-Seite
-    - [ ] Persönliche Statistik
-        - [ ] Best Buddy (meiste Spiele/Siege)
-        - [ ] Angstgegner (meiste Niederlagen)
-        - [ ] letzten Spiele (Verlauf-Graph)
-        - [ ] ELO Entwickling (Graph + Tendenz)
-- [ ] Erwartungswert für Spiel anzeigen
-- [ ] Einbinden der Webcam für Bilder
-- [ ] 'Bild ändern'-Button
-- [ ] Turnier-Tab
-- [ ] Undo-Button (wird für 10 s angezeigt)
+- [ ] Optimiert für Toucheingabe
+
