@@ -1,18 +1,10 @@
 # Import public modules
-from tkinter import IntVar
-from xmlrpc.client import DateTime
 from nicegui import app, ui
-import cv2, os.path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from init import players, columns, df_players, scores, add_game, set_rematch
 from dialog import choose_player_1, choose_player_2, choose_player_3, choose_player_4
-
-import math
-from datetime import datetime
-from dataclasses import dataclass, field
-from typing import Callable, List
 
 path_old = 'C:/Users/LTD/Documents/log.txt'
 path_data = 'data/database_games.csv'
