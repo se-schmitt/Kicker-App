@@ -16,7 +16,7 @@ from init import df_players, player, clear_tmp
 def content() -> None:
     with ui.tab_panel('Statistik').style('background-color: rgb(255,255,255)'):
         # create vertical split -> (value=9) -> 9% of site is the dropdown menu
-        with ui.splitter(value=9).classes('w-full h-full') as splitter: 
+        with ui.splitter(value=12).classes('w-full h-full') as splitter: 
             with splitter.before:
                 with ui.tabs().props('vertical').classes('w-256') as tabs:
                     plot = ui.tab('Show Elo Plot', icon='query_stats')
@@ -126,7 +126,7 @@ def show_elo_plot():
     for (i,id) in (enumerate(df_p1)):
         update_elo(df_elo, df_games,(df_p1[i], df_p2[i], df_p3[i], df_p4[i]),dp_names,df_s1[i],df_s2[i])
         if i < len(df_date)-1:
-            if df_date[i] != df_date[i+1]:
+            if df_date[i] != df_date[i+1] or df_date[i] == df_date[-1]:
                 curr_elo = []
                 plot_date.append(df_date[i])
                 for (j,jd) in (enumerate(dp_names)):
@@ -157,10 +157,10 @@ def show_elo_plot():
     ui.button('Plot ELO for selected Players!', on_click=lambda: Graph())
     
     #TODO: Once pushed to console -> recalculate elo and edit database_players.xlsx
-    #for (i,id) in enumerate(dp_names):
+    #or (i,id) in enumerate(dp_names):
     #    ui.label(plot[-1,i])
 
-    main_plot = ui.pyplot(close=False, figsize=(16, 6))
+    main_plot = ui.pyplot(close=False, figsize=(14, 5))
 
     def Graph():
         with main_plot:
@@ -171,8 +171,8 @@ def show_elo_plot():
                 if d["_{0}".format(i)]._state != False:
                     d["__{0}".format(i)] = plt.plot( plot[:,i], '-', label=dp_names[i])
             plt.title("Elo Plot")
-            plt.xlabel("Documented days since start of ELO system / d")
-            plt.ylabel("ELO / -")
+            plt.xlabel("Documented end-of-day ELO ratings since start of ELO system / d")
+            plt.ylabel("ELO")
             plt.legend(loc="upper left")
         
 
