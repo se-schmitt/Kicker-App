@@ -27,8 +27,6 @@ with tab_panels:
 
     # Tab 'Statistik'
     statistic.content()
-    # with ui.tab_panel('Statistik'):
-    #     ui.label('This is the second tab')
 
     # Tab 'Turnier'
     with ui.tab_panel('Turnier'):

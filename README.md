@@ -12,7 +12,9 @@ Zum Installieren aller benötigten Pakete folgenden Befehl ausführen:
 pip install -r requirements.txt
 ```
 
-## Bugs
+## Screenshot
+
+![Beispiel Screenshot](./media/screenshot.png)
 
 ## Neue Features
 
